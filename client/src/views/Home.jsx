@@ -1,14 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import CompaniesComponent from "../components/companies/CompaniesComponent";
 import AboutSummaryComponent from "../components/about/AboutSummaryComponent"
 import SliderComponent  from "../components/general/SliderComponent";
 import MoreButton from "../components/general/MoreButton";
 import TeamsSliderComponent from "../components/teams/TeamsSliderComponent";
 import ParticipantsSliderComponent from "../components/participants/ParticipantsSliderComponent"
+import GetDataComponent from "../components/general/GetDataComponent";
 
 
-
-function Home() {
+const Home = () => {
 
     return (
 		<>
@@ -28,7 +28,11 @@ function Home() {
 			</div>
 			<CompaniesComponent />
 				<MoreButton />
-			<ParticipantsSliderComponent headline="Participants" />
+			<GetDataComponent 
+				component={ParticipantsSliderComponent} 
+				url="/participant" 
+				headline="Participants"
+			/>
 		</div>
 		</>		
     )

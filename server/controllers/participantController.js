@@ -1,4 +1,8 @@
 const Participant = require("../models/participantModel");
+const multer = require("multer");
+const filesystem = require("fs");
+const { promisify } = require("util");
+const pipeline = promisify(require("stream").pipeline);
 
 const result_split = (array, size) => {
 	if (!array.length) {
@@ -56,5 +60,27 @@ module.exports = {
 		} catch (err) {
 			console.log(err);
 		}
+	},
+
+	upload: multer().single("Avatar"),
+
+	uploadAvatar: async (req, res) => {
+		console.log(req);
+		const {
+			file,
+			body: { name },
+		} = req;
+
+		if (file.detectedFileExtension != ".jpg")
+			next(new Error("invalid file type"));
+
+		await pipeline(
+			file.stream,
+			filesystem.createWriteStream(
+				`${__dirname}/../public/images/${file.originalName}`
+			)
+		);
+
+		res.send("Avatar uploaded successfully");
 	},
 };

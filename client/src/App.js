@@ -19,6 +19,10 @@ function App() {
 							component={createParticipant}
 						/>
 						<Route
+							path="/participant/upload"
+							component={createParticipant}
+						/>
+						<Route
 							path="/participant/:id"
 							component={showParticipant}
 						/>

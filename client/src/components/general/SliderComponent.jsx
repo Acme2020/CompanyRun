@@ -11,7 +11,6 @@ const SliderComponent = () => {
 		const response = await fetch("/participant");
 		const data = await response.json();
 		setParticipants(data);
-		console.log(data);
     };
 return (
         <div className="fluid">
