@@ -6,6 +6,7 @@ const FooterComponent = () => {
             <div className="row">
                  <div className="d-flex justify-content-center align-items-center">
                     <div className="col-2 text-white" href="#">Ev. Stiftung Alsterdorf 2021</div>
+                    <div className="col-1 text-white" href="#">Impressum</div>
                     <div className="col-1 text-white" href="#">Datenschutz</div>
                 </div>
             </div>

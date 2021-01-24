@@ -1,4 +1,5 @@
 const db = require("../db/db");
+const multer = require("multer");
 
 exports.getParticipants = async () => {
 	try {
