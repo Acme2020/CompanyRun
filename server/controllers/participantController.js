@@ -2,7 +2,7 @@ const Participant = require("../models/participantModel");
 const multer = require("multer");
 const filesystem = require("fs");
 const { promisify } = require("util");
-const pipeline = promisify(require("stream").pipeline);
+const sharp = require("sharp");
 
 const result_split = (array, size) => {
 	if (!array.length) {
@@ -44,43 +44,46 @@ module.exports = {
 			console.log(err);
 		}
 	},
-	create: async (req, res) => {
-		try {
-			const result = await Participant.createParticipant(
-				req.params.first_name,
-				req.params.last_name,
-				req.params.email
-			);
-			console.log(result);
-			res.json({
-				status: "success",
-				results: result.length,
-				data: { response: result[0] },
-			});
-		} catch (err) {
-			console.log(err);
-		}
-	},
 
 	upload: multer().single("Avatar"),
 
-	uploadAvatar: async (req, res) => {
-		console.log(req);
-		const {
-			file,
-			body: { name },
-		} = req;
+	create: async (req, res) => {
+		const file = req.file;
+		const body = req.body;
+		const avatarPathServer = `${__dirname}/../public/images/${new Date().getTime()}${
+			file.originalName
+		}`;
+		const avatarName = `${new Date().getTime()}${file.originalName}`;
+		const pipeline = promisify(require("stream").pipeline);
 
-		if (file.detectedFileExtension != ".jpg")
-			next(new Error("invalid file type"));
+		if (file.detectedMimeType.startsWith("image")) {
+			try {
+				const result = await Participant.createParticipant(
+					body.FirstName,
+					body.LastName,
+					body.Email,
+					avatarName
+				);
+				console.log(result);
+				res.json({
+					status: "success",
+					results: result.length,
+					data: { response: result[0] },
+				});
 
-		await pipeline(
-			file.stream,
-			filesystem.createWriteStream(
-				`${__dirname}/../public/images/${file.originalName}`
-			)
-		);
+				const resizeImage = sharp()
+					.resize(150, 150)
+					.toFormat("jpeg")
+					.jpeg({ quality: 90 });
 
-		res.send("Avatar uploaded successfully");
+				await pipeline(
+					file.stream,
+					resizeImage,
+					filesystem.createWriteStream(avatarPathServer)
+				);
+			} catch (err) {
+				console.log(err);
+			}
+		} else res.send("invalid file type");
 	},
 };

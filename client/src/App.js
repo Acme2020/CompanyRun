@@ -1,9 +1,9 @@
-import "./App.css";
+import "./custom.scss";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavbarComponent from "./components/general/NavbarComponent";
 import Home from "./views/Home";
-import showParticipant from "./views/participants/showParticipant";
-import createParticipant from "./views/participants/createParticipant";
+import ShowParticipant from "./views/participants/ShowParticipant";
+import CreateParticipant from "./views/participants/CreateParticipant";
 import FooterComponent from "./components/general/FooterComponent";
 
 function App() {
@@ -16,15 +16,11 @@ function App() {
 						<Route exact path="/" component={Home} />
 						<Route
 							path="/participant/new"
-							component={createParticipant}
-						/>
-						<Route
-							path="/participant/upload"
-							component={createParticipant}
+							component={CreateParticipant}
 						/>
 						<Route
 							path="/participant/:id"
-							component={showParticipant}
+							component={ShowParticipant}
 						/>
 					</Switch>
 				</Router>

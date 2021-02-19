@@ -1,5 +1,4 @@
 const db = require("../db/db");
-const multer = require("multer");
 
 exports.getParticipants = async () => {
 	try {
@@ -13,7 +12,7 @@ exports.getParticipants = async () => {
 exports.getParticipant = async (id) => {
 	try {
 		let result = await db.query(
-			"SELECT * FROM participants WHERE id = $1",
+			"SELECT first_name, last_name, email, avatar_name FROM participants WHERE id = $1",
 			[id]
 		);
 		return result.rows;
@@ -22,14 +21,18 @@ exports.getParticipant = async (id) => {
 	}
 };
 
-exports.createParticipant = async (first_name, last_name, email) => {
+exports.createParticipant = async (
+	first_name,
+	last_name,
+	email,
+	avatar_name
+) => {
 	try {
 		let result = await db.query(
-			"INSERT INTO participants (first_name, last_name, email) VALUES ($1, $2, $3) returning *"[
-				(first_name, last_name, email)
-			]
+			"INSERT INTO participants (first_name, last_name, email, avatar_name) VALUES ($1, $2, $3, $4) RETURNING *",
+			[first_name, last_name, email, avatar_name]
 		);
-		return result.rows;
+		return result.rows[0];
 	} catch (error) {
 		console.log(error);
 	}
