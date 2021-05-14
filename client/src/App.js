@@ -4,6 +4,7 @@ import NavbarComponent from "./components/general/NavbarComponent";
 import Home from "./views/Home";
 import ShowParticipant from "./views/participants/ShowParticipant";
 import CreateParticipant from "./views/participants/CreateParticipant";
+import LoginParticipant from "./views/participants/LoginParticipant";
 import FooterComponent from "./components/general/FooterComponent";
 
 function App() {
@@ -14,6 +15,10 @@ function App() {
 				<Router>
 					<Switch>
 						<Route exact path="/" component={Home} />
+						<Route
+							path="/participant/login"
+							component={LoginParticipant}
+						/>
 						<Route
 							path="/participant/new"
 							component={CreateParticipant}

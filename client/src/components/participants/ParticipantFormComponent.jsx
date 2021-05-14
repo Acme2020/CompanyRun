@@ -16,6 +16,7 @@ const ParticipantFormComponent = () => {
 	const [Avatar, setAvatar] = useState();
 	const [Team, setTeam] = useState();
 	const [Company, setCompany] = useState();
+	const [Password, setPassword] = useState();
 
 	const submitForm = (event) => {
 		event.preventDefault();
@@ -23,6 +24,7 @@ const ParticipantFormComponent = () => {
 		data.append("FirstName", FirstName);
 		data.append("LastName", LastName);
 		data.append("Email", Email);
+		data.append("Password", Password);
 		data.append("Team", Team);
 		data.append("Company", Company);
 		data.append("Avatar", Avatar);
@@ -77,6 +79,21 @@ const ParticipantFormComponent = () => {
 							onChange={(event) => {
 								const { value } = event.target;
 								setEmail(value);
+							}}
+						/>
+						<FormText id="email"></FormText>
+					</FormGroup>
+				</Col>
+			</Row>
+			<Row>
+				<Col md={{ span: 3, offset: 0 }}>
+					<FormGroup>
+						<FormLabel>Passwort</FormLabel>
+						<FormControl
+							type="text"
+							onChange={(event) => {
+								const { value } = event.target;
+								setPassword(value);
 							}}
 						/>
 						<FormText id="email"></FormText>

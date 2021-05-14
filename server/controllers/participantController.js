@@ -3,6 +3,7 @@ const multer = require("multer");
 const filesystem = require("fs");
 const { promisify } = require("util");
 const sharp = require("sharp");
+const bcrypt = require("bcrypt");
 
 const result_split = (array, size) => {
 	if (!array.length) {
@@ -58,10 +59,12 @@ module.exports = {
 
 		if (file.detectedMimeType.startsWith("image")) {
 			try {
+				const crypt_password = await bcrypt.hash(body.Password, 10);
 				const result = await Participant.createParticipant(
 					body.FirstName,
 					body.LastName,
 					body.Email,
+					crypt_password,
 					avatarName
 				);
 				console.log(result);
